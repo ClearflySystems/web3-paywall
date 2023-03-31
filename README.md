@@ -28,10 +28,10 @@ npm hardhat init
 
 ### Initial Project Idea
 
-To Mimic content access we'll use 3rd party news feeds instead of a database and act as a proxy.
-Get an RSS feed from a news site as our initial frontend view. Modify urls to point to our backend.
-Requests for full article get passed to back end with signed request from front end wallet.
-Front end will offer PayNow or Subscribe Buttons
+To Mimic content access we'll use 3rd party news feeds instead of a database and act as a proxy.  
+Get an RSS feed from a news site as our initial frontend view. Modify urls to point to our backend.  
+Requests for full article get passed to back end with signed request from front end wallet.  
+Front end will offer PayNow or Subscribe Buttons  
 
 Smart Contract checks for payment or subscription.  
 a) Subscription check: store state list of subscribed address.  
