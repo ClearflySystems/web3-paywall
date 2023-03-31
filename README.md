@@ -33,9 +33,9 @@ Get an RSS feed from a news site as our initial frontend view. Modify urls to po
 Requests for full article get passed to back end with signed request from front end wallet.
 Front end will offer PayNow or Subscribe Buttons
 
-Smart Contract checks for payment or subscription.
-a) Subscription check: store state list of subscribed address.
-b) Payment check: search address for previous transactions looking for state meta data of hash of content or url?? This needs researching.
+Smart Contract checks for payment or subscription.  
+a) Subscription check: store state list of subscribed address.  
+b) Payment check: search address for previous transactions looking for state meta data of hash of content or url?? This needs researching.  
 
 If successful backend delivers content to frontend. (mimic database call by http get to rss feed page)
 
