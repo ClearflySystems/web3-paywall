@@ -4,11 +4,13 @@ import { AxiosError } from "axios";
 import { catchError, firstValueFrom } from "rxjs";
 import {ethers, sha256} from 'ethers';
 import * as helpers from "./helpers";
-import * as payWallJson from './assets/PayWall.json';
-
+import * as payWallJson from './assets/Paywall.json';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const PAYWALL_CONTRACT_ADDRESS = '';
 const RSS_NEWS_FEED = 'https://cointelegraph.com/rss';
+const ARTICLE_PRICE = "0.01";
 
 @Injectable()
 export class AppService {
@@ -21,14 +23,20 @@ export class AppService {
    */
   constructor(private readonly httpService: HttpService) {
     // Define Alchemy provider
-    //this.provider = helpers.getTestnetProvider(1);
+    this.provider = helpers.getTestnetProvider(1);
+
+    // Check Private Key for Contract Deployer Is present
+    const privateKey = helpers.getRequiredEnvVar('PRIVATE_KEY', 'Missing or Invalid Private Key.');
+
+    // Connect Signer Wallet so we can Admin Contract
+    this.signer = helpers.getConnectedSignerWallet(privateKey, this.provider);
 
     // Define Token Contact
-    //this.payWallContract = new ethers.Contract(
-    //    PAYWALL_CONTRACT_ADDRESS,
-    //    payWallJson.abi,
-    //    this.provider
-    //);
+    this.payWallContract = new ethers.Contract(
+        PAYWALL_CONTRACT_ADDRESS,
+        payWallJson.abi,
+        this.provider
+    );
   }
 
   /**
@@ -39,13 +47,29 @@ export class AppService {
   }
 
   /**
+   * Get All Contract Articles
+   * We will iterate outside of the contract
+   */
+  async getAllArticles(): Promise<[]> {
+    return await this.payWallContract.articles();
+  }
+
+  /**
+   * Add New Article to Smart Contracts list of Articles.
+   */
+  async addArticle(url): Promise<boolean> {
+    return await this.payWallContract.addNewArticle(
+        ethers.parseEther(ARTICLE_PRICE),
+        url
+    );
+  }
+
+  /**
    * Get Is Address Subscribed
    * @param address
    */
-  getHasWalletAddressSubscribed(address: string): boolean {
-    // TODO check contract for subscriber
-
-    return true
+  async getHasWalletAddressSubscribed(address: string): Promise<boolean> {
+    return await this.payWallContract.hasLifetimeSubscription(address);
   }
 
   /**
