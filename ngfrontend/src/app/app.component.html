@@ -1,0 +1,61 @@
+<header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
+  <div class="navbar-nav flex-row flex-wrap bd-navbar-nav">
+    <a class="navbar-brand mx-3" href="/" aria-label="Blotto">
+      <img src="../assets/coins_news.png" alt="Crypto NeWs" style="height:90px"/> <span class="fs-1 mx-2" style="vertical-align: middle"> Whats hot in crypto!!</span>
+    </a>
+  </div>
+
+  <div class="navbar-nav flex-row flex-wrap ms-md-auto">
+    <button *ngIf="!metaMask.userWalletAddress" class="btn btn-lg btn-light mx-3 my-2" (click)="metaMask.connectWallet()">
+      <span *ngIf="!metaMask.userWalletAddress">Connect Wallet</span>
+    </button>
+    <button *ngIf="metaMask.userWalletAddress" class="btn btn-lg btn-light mx-3 my-2">
+      <small class="fs-6 lh-sm d-inline-block">Connected to: {{metaMask.getUserWalletNetworkName()}}
+        <br/>{{metaMask.userWalletAddress}}
+        <br/>{{metaMask.userEthBalance}} ETH
+      </small>
+    </button>
+  </div>
+</header>
+
+
+<div class="container py-4">
+
+  <div class="p-5 mb-4 bg-light rounded-3 opacity-75">
+    <div class="row">
+      <div class="col-sm-9">
+        <div *ngIf="this.currentArticle">
+          <h4>{{this.currentArticle.title}}</h4>
+          <img src="{{ this.currentArticle.image }}" style="max-width:400px; float: left; margin:0 15px 0 0;vertical-align: top; border:3px solid rgba(130, 126, 15, 0.5)" />
+          <p>{{this.currentArticle.description}}</p>
+
+          <div *ngIf="!this.currentArticle.accessible">
+            <p><strong>To Read full article choose from:</strong></p>
+
+            <button (click)="this.purchaseSubscription()" class="btn btn-outline-success">Get Lifetime Subscription (0.5 ETH)</button>
+            <br/><br/>
+            <button (click)="this.purchaseArticle()" class="btn btn-outline-info">Get Single Article Access (0.01 ETH)</button>
+          </div>
+
+          <div *ngIf="this.currentArticle.accessible">
+            <button (click)="this.readArticle()">Read More</button>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="col-sm-3">
+        <h5>Feed</h5>
+        <div *ngIf="this.rssFeedObject">
+          <ol style="margin:0;padding:0 0 0 15px">
+            <li *ngFor="let item of this.rssFeedObject; let index=index;" (click)="this.loadArticle(index, item)" style="padding: 5px; margin:0 0 20px; line-height: 1.2;">
+              <img src="{{ item.image }}" style="width:80px; float: right; margin:0 5px 0 0;vertical-align: top;" />
+              {{ item.title }}
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
