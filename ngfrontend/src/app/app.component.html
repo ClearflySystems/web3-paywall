@@ -25,9 +25,12 @@
     <div class="row">
       <div class="col-sm-9">
         <div *ngIf="this.currentArticle">
-          <h4>{{this.currentArticle.title}}</h4>
+          <h4 style="margin:0 0 15px;">{{this.currentArticle.title}}</h4>
           <img src="{{ this.currentArticle.image }}" style="max-width:400px; float: left; margin:0 15px 0 0;vertical-align: top; border:3px solid rgba(130, 126, 15, 0.5)" />
-          <p>{{this.currentArticle.description}}</p>
+          <div>
+            <p><small>{{ this.currentArticle.date }}</small></p>
+            <p>{{this.currentArticle.description}}</p>
+          </div>
 
           <div *ngIf="!this.currentArticle.accessible">
             <p><strong>To Read full article choose from:</strong></p>
@@ -38,7 +41,7 @@
           </div>
 
           <div *ngIf="this.currentArticle.accessible">
-            <button (click)="this.readArticle()">Read More</button>
+            <button (click)="this.readArticle()" class="btn btn-success">Read Full Article</button>
           </div>
 
           <hr/>
@@ -60,7 +63,7 @@
         <h5>Feed</h5>
         <div *ngIf="this.rssFeedObject">
           <ol style="margin:0;padding:0 0 0 15px">
-            <li *ngFor="let item of this.rssFeedObject; let index=index;" (click)="this.loadArticle(index, item)" style="padding: 5px; margin:0 0 20px; line-height: 1.2;">
+            <li *ngFor="let item of this.rssFeedObject; let index=index;" (click)="this.loadArticle(index, item)" style="padding: 5px; margin:0 0 20px; line-height: 1.2; cursor:pointer;">
               <img src="{{ item.image }}" style="width:80px; float: right; margin:0 5px 0 0;vertical-align: top;" />
               {{ item.title }}
             </li>
