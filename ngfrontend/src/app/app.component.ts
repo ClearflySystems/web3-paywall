@@ -159,12 +159,20 @@ export class AppComponent {
    * @param index
    * @param item
    */
-  loadArticle(index:number, item:any){
+  async loadArticle(index:number, item:any){
     this.currentArticle = item;
     this.currentArticle.index = index;
     this.currentArticle.accessible = this.isLifetimeSubscriber;
 
     // TODO if not a subscriber, read contract to find out if in paid articles list
+    if(!this.isLifetimeSubscriber && this.paywallContract && this.currentSigner) {
+      const connectedContract = await this.paywallContract.connect(this.currentSigner);
+      const tx = await connectedContract['hasAccessToArticle'](this.currentArticle.index, this.metaMask.userWalletAddress);
+      if(tx){
+        this.currentArticle.accessible = true;
+      }
+      console.log( tx );
+    }
   }
 
   /**
