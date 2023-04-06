@@ -62,11 +62,11 @@ export class AppComponent {
       alert('Not connected to Sepolia');
       return;
     }
-    // Init Contracts
-    await this.initContracts();
-
     // Setup Current Signer
     this.currentSigner = await this.metaMask.getSigner();
+
+    // Init Contracts
+    await this.initContracts();
 
     if(this.paywallContract) {
 
@@ -101,6 +101,7 @@ export class AppComponent {
       this.isLifetimeSubscriber = await connectedContract['hasLifetimeSubscription'](
         this.metaMask.userWalletAddress
       );
+      console.log(`Is lifetime subscriber: ${this.isLifetimeSubscriber}`);
     }
   }
 
