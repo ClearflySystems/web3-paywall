@@ -115,7 +115,7 @@ export class AppComponent {
         const connectedContract = await this.paywallContract.connect( this.currentSigner );
         // Execute subscription transaction
         const tx = await connectedContract['buyLifetimeSubscription']({
-          value: ethers.utils.parseEther("0.1"),
+          value: ethers.utils.parseEther("0.5"),
           gasLimit: 200000
         });
         const rcpt = await tx.wait();
@@ -221,6 +221,29 @@ export class AppComponent {
         resolve(r);
       }).catch((e:any) => reject(e));
     });
+  }
+
+
+  /**
+   * Temp hack to add articles index to contract so purchasable
+   * @param index
+   */
+  async addArticleToContract(url:string){
+    if(this.paywallContract && this.currentSigner) {
+      try {
+        // Connect current wallet signer
+        const connectedContract = await this.paywallContract.connect(this.currentSigner);
+        // Execute subscription transaction
+        const tx = await connectedContract['addNewArticle'](ethers.utils.parseEther("0.00001"), url, {
+          gasLimit: 200000
+        });
+        const rcpt = await tx.wait();
+        console.log(tx);
+        console.log(rcpt);
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }
 
   /**

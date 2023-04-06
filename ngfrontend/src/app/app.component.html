@@ -34,11 +34,23 @@
 
             <button (click)="this.purchaseSubscription()" class="btn btn-outline-success">Get Lifetime Subscription (0.5 ETH)</button>
             <br/><br/>
-            <button (click)="this.purchaseArticle()" class="btn btn-outline-info">Get Single Article Access (0.01 ETH)</button>
+            <button (click)="this.purchaseArticle()" class="btn btn-outline-info">Get Single Article Access (0.00001 ETH)</button>
           </div>
 
           <div *ngIf="this.currentArticle.accessible">
             <button (click)="this.readArticle()">Read More</button>
+          </div>
+
+          <hr/>
+
+          <div *ngIf="this.metaMask.userWalletAddress=='admin'" class="input-group">
+            <input
+              class="form-control"
+              name="addArticleIndex"
+              value="{{ this.currentArticle.url }}"
+              #addArticleIndex
+            />
+            <button class="btn btn-sm btn-dark" (click)="addArticleToContract( addArticleIndex.value )">Go</button>
           </div>
 
         </div>
