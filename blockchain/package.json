@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"build": "npx hardhat compile",
-		"deploy-testnet": "npx hardhat run ./scripts/Paywall_deploy.js --network ETH_GOERLI",
+		"deploy-testnet": "npx hardhat run ./scripts/Paywall_deploy.js --network ETH_SEPOLIA",
 		"deploy": "npx hardhat run ./scripts/Paywall_deploy.js --network ETH_MAINNET",
 		"node": "npx hardhat node",
 		"deploy-local": "npx hardhat run ./scripts/Paywall_deploy.js --network localhost"
@@ -19,7 +19,7 @@
 		"@nomicfoundation/hardhat-network-helpers": "^1.0.8",
 		"@nomicfoundation/hardhat-toolbox": "^2.0.1",
 		"@nomiclabs/hardhat-ethers": "^2.2.2",
-		"@nomiclabs/hardhat-etherscan": "^3.1.6",
+		"@nomiclabs/hardhat-etherscan": "^3.1.7",
 		"@typechain/ethers-v5": "^10.2.0",
 		"@typechain/hardhat": "^6.1.5",
 		"@types/chai": "^4.3.4",
@@ -27,7 +27,7 @@
 		"@types/node": "^18.14.0",
 		"chai": "^4.3.7",
 		"dotenv": "^16.0.3",
-		"ethers": "^5.4.7",
+		"ethers": "^5.7.2",
 		"hardhat": "^2.13.0",
 		"hardhat-gas-reporter": "^1.0.9",
 		"mocha": "^10.2.0",

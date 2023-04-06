@@ -27,7 +27,23 @@ export class AppController {
    */
   @Get("news-feed")
   async getNewsFeed(): Promise<string> {
-    return this.appService.getRssFeed();
+    return this.appService.getArticlesJson();
+  }
+
+  /**
+   * Deploy Articles To Contract
+   */
+  @Get("deploy-news-feed")
+  async deployNewsFeed(): Promise<string> {
+    return this.appService.deployNewsArticles();
+  }
+
+  /**
+   * Deploy Articles To Contract
+   */
+  @Get("deployed-articles")
+  async deployedArticles(): Promise<any> {
+    return JSON.stringify( this.appService.getAllArticles() );
   }
 
   /**
@@ -38,11 +54,12 @@ export class AppController {
    */
   @Post("news-article")
   async getNewsArticle(@Body() body: models.ArticleRequestDTO): Promise<string> {
+    return body.url;
     if(
         this.appService.getHasWalletAddressSubscribed(body.address) ||
         this.appService.getHasWalletAddressPaidArticle(body.address, body.url)
     ){
-      return this.appService.getArticle(body.url);
+      return body.url //this.appService.getArticle(body.url);
     }
     return '';
   }

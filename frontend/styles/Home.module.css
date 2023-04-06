@@ -26,3 +26,52 @@
 	min-height:800px;
 	margin: 0 0 0 20px;
 }
+
+
+.modal{
+	position: fixed;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	background: #FFFFFFAA;
+}
+
+.modal button{
+	padding:10px;
+	border:1px solid #555;
+	border-radius:5px;
+	margin:20px;
+	cursor: pointer;
+}
+
+.modalbody{
+	width:50%;
+	max-width:500px;
+	margin:10% auto 0;
+	background:#FFF;
+	border:1px solid #CCC;
+	border-radius:10px;
+	text-align: center;
+}
+.modalheader{
+	border-bottom: 1px solid #CCC;
+	text-align: center;
+	color:#000;
+	font-size:20px;
+	position: relative;
+	height:60px;
+	line-height: 60px;
+}
+.modalheader button{
+	background:none;
+	width:30px;
+	height:30px;
+	line-height:10px;
+	border-radius: 50%;
+	cursor:pointer;
+	position: absolute;
+	top:15px;
+	right:15px;
+	margin:0;
+}

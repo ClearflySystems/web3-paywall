@@ -3,7 +3,7 @@ const hre = require("hardhat");
 async function main() {
 	const Contract = await hre.ethers.getContractFactory("Paywall");
 
-	const subscriptionPrice = hre.ethers.parseEther("0.5");
+	const subscriptionPrice = hre.ethers.utils.parseEther("0.5");
 	const contract = await Contract.deploy(subscriptionPrice);
 
 	await contract.deployed();
