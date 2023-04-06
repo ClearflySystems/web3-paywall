@@ -23,7 +23,7 @@ const BACKEND_API_ENDPOINT = "http://localhost:4000/";
 })
 export class AppComponent {
   metaMask: metaMaskModule;
-  defaultProvider: ethers.Provider;
+  defaultProvider: ethers.providers.Provider;
   currentSigner: ethers.Signer | undefined;
   paywallContractAddress: string;
   paywallContract: ethers.Contract | undefined;
@@ -41,7 +41,7 @@ export class AppComponent {
     this.metaMask = new metaMaskModule(() => this.refreshUI());
 
     // Setup a Metamask Web3 provider
-    this.defaultProvider = ethers.getDefaultProvider('https://eth-sepolia.g.alchemy.com/v2/LCL0lLCmMpejH_FbIzsjwkBBFRqHbPLv');//this.metaMask.web3provider;
+    this.defaultProvider = this.metaMask.web3provider; //ethers.getDefaultProvider('https://eth-sepolia.g.alchemy.com/v2/LCL0lLCmMpejH_FbIzsjwkBBFRqHbPLv');
 
     // Set Contract Addresses
     this.paywallContractAddress = PAYWALL_CONTRACT_ADDRESS || '';
@@ -94,8 +94,8 @@ export class AppComponent {
     }
     if(this.currentSigner){
       // Check if lifetime subscriber
-      //this.paywallContract.connect( this.currentSigner );
-      this.isLifetimeSubscriber = await this.paywallContract['hasLifetimeSubscription'](
+      const connectedContract = await this.paywallContract.connect( this.currentSigner );
+      this.isLifetimeSubscriber = await connectedContract['hasLifetimeSubscription'](
         this.metaMask.userWalletAddress
       );
     }
@@ -109,10 +109,10 @@ export class AppComponent {
     if(this.paywallContract && this.currentSigner) {
       try {
         // Connect current wallet signer
-        this.paywallContract.connect(this.currentSigner);
+        const connectedContract = await this.paywallContract.connect( this.currentSigner );
         // Execute subscription transaction
-        const tx = await this.paywallContract['buyLifetimeSubscription']({
-          value: ethers.parseEther("0.1"),
+        const tx = await connectedContract['buyLifetimeSubscription']({
+          value: ethers.utils.parseEther("0.1"),
           gasLimit: 200000
         });
         const rcpt = await tx.wait();
@@ -133,10 +133,10 @@ export class AppComponent {
     if(this.paywallContract && this.currentSigner) {
       try {
         // Connect current wallet signer
-        this.paywallContract.connect(this.currentSigner);
+        const connectedContract = await this.paywallContract.connect( this.currentSigner );
         // Execute subscription transaction
-        const tx = await this.paywallContract['buyArticle']({
-          value: ethers.parseEther("0.00001"),
+        const tx = await connectedContract['buyArticle']({
+          value: ethers.utils.parseEther("0.00001"),
           gasLimit: 200000
         });
         const rcpt = await tx.wait();

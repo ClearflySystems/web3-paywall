@@ -26,7 +26,7 @@ const chainIds: IchainIds = {
 /// @author Simon Thomas
 export class metaMaskModule {
   provider: MetaMaskInpageProvider | null | undefined;
-  web3provider: ethers.BrowserProvider;
+  web3provider: ethers.providers.Web3Provider;
   userWalletAddress: string = '';
   userWalletNetwork: number = 0;
   userEthBalance: number = 0;
@@ -37,7 +37,7 @@ export class metaMaskModule {
    * @param onUpdateCallback
    */
   constructor( onUpdateCallback:Function ) {
-    this.web3provider = new ethers.BrowserProvider(window.ethereum);
+    this.web3provider = new ethers.providers.Web3Provider(window.ethereum);
     this.initMetaMaskProvider().catch(e => {
       console.log('Error initialising MetaMask Wallet Connection');
     });
@@ -108,7 +108,7 @@ export class metaMaskModule {
         method: "eth_getBalance",
         params: [this.userWalletAddress, 'latest']
       }).then(async (balanceBN: any) => {
-        const balanceStr = ethers.formatEther(balanceBN);
+        const balanceStr = ethers.utils.formatEther(balanceBN);
         this.userEthBalance = parseFloat(balanceStr.toString());
         // Update Network Name
         this.setWalletNetwork(this.provider?.networkVersion);
@@ -127,7 +127,7 @@ export class metaMaskModule {
         method: "eth_getBalance",
         params: [this.userWalletAddress, 'latest']
       }).then(async (balanceBN: any) => {
-        const balanceStr = ethers.formatEther(balanceBN);
+        const balanceStr = ethers.utils.formatEther(balanceBN);
         this.userEthBalance = parseFloat(balanceStr.toString());
         // Update Network Name
         this.setWalletNetwork(this.provider?.networkVersion);
@@ -158,7 +158,7 @@ export class metaMaskModule {
   /**
    * Get MetaMask wallet as Signer
    */
-  getSigner(){
+  getSigner() {
     return this.web3provider.getSigner();
   }
 
