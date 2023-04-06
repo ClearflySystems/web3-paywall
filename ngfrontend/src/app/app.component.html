@@ -60,8 +60,8 @@
 
       </div>
       <div class="col-sm-3">
-        <h5>Feed</h5>
         <div *ngIf="this.rssFeedObject">
+          <h5>News Feed</h5>
           <ol style="margin:0;padding:0 0 0 15px">
             <li *ngFor="let item of this.rssFeedObject; let index=index;" (click)="this.loadArticle(index, item)" style="padding: 5px; margin:0 0 20px; line-height: 1.2; cursor:pointer;">
               <img src="{{ item.image }}" style="width:80px; float: right; margin:0 5px 0 0;vertical-align: top;" />
