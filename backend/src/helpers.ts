@@ -1,4 +1,4 @@
-import {ethers, Provider, Wallet} from "ethers";
+import {ethers, Wallet} from "ethers";
 
 /**
  * Get required argument at index (ignoring first 2 node env args)
@@ -44,7 +44,7 @@ export function convertStringArrayToBytes32(array: string[]): any[] {
  * @param index
  * @param testnet - default goerli
  */
-export function getTestnetProvider(index?: number, testnet?: string): Provider {
+export function getTestnetProvider(index?: number, testnet?: string): ethers.providers.Provider {
     throw new Error("Function not implemented.");
 }
 
@@ -53,7 +53,7 @@ export function getTestnetProvider(index?: number, testnet?: string): Provider {
  * @param privateKey
  * @param provider
  */
-export function getConnectedSignerWallet(privateKey: string, provider: Provider): Wallet {
+export function getConnectedSignerWallet(privateKey: string, provider: ethers.providers.Provider): Wallet {
     throw new Error("Function not implemented.");
 }
 
@@ -87,23 +87,23 @@ module.exports = {
     convertStringArrayToBytes32: (array: string[]): any[] => {
         const bytes32Array = [];
         for (let index = 0; index < array.length; index++) {
-            bytes32Array.push(ethers.encodeBytes32String(array[index]));
+            bytes32Array.push(ethers.utils.formatBytes32String(array[index]));
         }
         return bytes32Array;
     },
 
-    getTestnetProvider: (p: number, testnet: string = "sepolia"): Provider => {
+    getTestnetProvider: (p: number, testnet: string = "sepolia"): ethers.providers.Provider => {
         switch (p) {
             case 1:
-                return new ethers.AlchemyProvider(testnet, module.exports.getRequiredEnvVar('ALCHEMY_API_KEY') );
+                return new ethers.providers.AlchemyProvider(testnet, module.exports.getRequiredEnvVar('ALCHEMY_API_KEY') );
             case 2:
-                return new ethers.EtherscanProvider(testnet, module.exports.getRequiredEnvVar('ETHERSCAN_API_KEY') );
+                return new ethers.providers.EtherscanProvider(testnet, module.exports.getRequiredEnvVar('ETHERSCAN_API_KEY') );
             default:
                 return ethers.getDefaultProvider(testnet);
         }
     },
 
-    getConnectedSignerWallet: (privateKey: string, provider: Provider): Wallet => {
+    getConnectedSignerWallet: (privateKey: string, provider: ethers.providers.Provider): Wallet => {
         const wallet = new ethers.Wallet(privateKey);
         console.log(`Connected to the wallet address ${wallet.address}`);
         return wallet.connect(provider);

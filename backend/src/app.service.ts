@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { AxiosError } from "axios";
 import { catchError, firstValueFrom } from "rxjs";
-import {ethers, sha256} from 'ethers';
+import {ethers} from 'ethers';
 import * as helpers from "./helpers";
 import * as payWallJson from './assets/Paywall.json';
 import * as dotenv from 'dotenv';
@@ -15,7 +15,7 @@ const ARTICLE_PRICE = "0.01";
 
 @Injectable()
 export class AppService {
-  provider: ethers.Provider;
+  provider: ethers.providers.Provider;
   signer: ethers.Wallet;
   payWallContract: ethers.Contract;
 
@@ -65,7 +65,7 @@ export class AppService {
   async addArticle(url): Promise<boolean> {
     try{
       return await this.payWallContract.addNewArticle(
-          ethers.parseEther(ARTICLE_PRICE),
+          ethers.utils.parseEther(ARTICLE_PRICE),
           url
       );
     }catch(e){
@@ -128,7 +128,7 @@ export class AppService {
    * @param input
    */
   createHash(input): string {
-    return sha256( ethers.encodeBytes32String(input) );
+    return ''; //sha256( ethers.utils.formatBytes32String(input) );
   }
 
   /**
