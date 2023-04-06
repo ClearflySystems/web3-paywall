@@ -138,7 +138,7 @@ export class AppComponent {
         // Connect current wallet signer
         const connectedContract = await this.paywallContract.connect( this.currentSigner );
         // Execute subscription transaction
-        const tx = await connectedContract['buyArticle']({
+        const tx = await connectedContract['buyArticle'](this.currentArticle.index, {
           value: ethers.utils.parseEther("0.00001"),
           gasLimit: 200000
         });
